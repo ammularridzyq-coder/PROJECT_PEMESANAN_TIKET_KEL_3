@@ -89,3 +89,66 @@ void riwayatPemesanan() {
     if (!ditemukan)
         cout << "Data tidak ditemukan.\n";
 }
+
+void pemesananTiket() {
+    char ulang;
+    do {
+        cout << "\n===== PEMESANAN TIKET KERETA =====\n";
+        cout << "Masukkan nama: ";
+        cin.ignore();
+        getline(cin, nama[jumlahPelanggan]);
+
+        cout << "\nPilih rute (1-5):\n";
+        cout << "1. Palu - Makassar\n2. Palu - Mamuju\n3. Palu - Manado\n4. Palu - Gorontalo\n5. Palu - Kendari\n";
+        int pilihRute, harga = 0;
+        cout << "Pilihan Anda: ";
+        cin >> pilihRute;
+        cin.ignore();
+
+        switch (pilihRute) {
+            case 1: rute[jumlahPelanggan] = "Palu - Makassar"; harga = 200000; break;
+            case 2: rute[jumlahPelanggan] = "Palu - Mamuju"; harga = 180000; break;
+            case 3: rute[jumlahPelanggan] = "Palu - Manado"; harga = 220000; break;
+            case 4: rute[jumlahPelanggan] = "Palu - Gorontalo"; harga = 210000; break;
+            case 5: rute[jumlahPelanggan] = "Palu - Kendari"; harga = 190000; break;
+            default: cout << "Rute tidak valid!\n"; return;
+        }
+
+        cout << "Masukkan tanggal keberangkatan (dd/mm/yyyy): ";
+        getline(cin, tanggal[jumlahPelanggan]);
+        cout << "Masukkan jumlah tiket: ";
+        cin >> jumlah[jumlahPelanggan];
+
+        total[jumlahPelanggan] = hitungTotal(jumlah[jumlahPelanggan], harga);
+        cetakStruk(nama[jumlahPelanggan], rute[jumlahPelanggan], tanggal[jumlahPelanggan], jumlah[jumlahPelanggan], total[jumlahPelanggan]);
+
+        jumlahPelanggan++;
+
+        cout << "Tambah pelanggan lagi? (y/n): ";
+        cin >> ulang;
+    } while (ulang == 'y' || ulang == 'Y');
+}
+int main() {
+    int pilihan;
+    do {
+        cout << "\n===== SISTEM PEMESANAN TIKET KERETA =====\n";
+        cout << "1. Pemesanan Tiket\n";
+        cout << "2. Daftar Pelanggan\n";
+        cout << "3. Statistik Penjualan\n";
+        cout << "4. Riwayat & Pencarian\n";
+        cout << "5. Keluar\n";
+        cout << "Pilih menu: ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+            case 1: pemesananTiket(); break;
+            case 2: daftarPelanggan(); break;
+            case 3: statistikPenjualan(); break;
+            case 4: riwayatPemesanan(); break;
+            case 5: cout << "\nTerima kasih telah menggunakan sistem pemesanan tiket!\n"; break;
+            default: cout << "Pilihan tidak valid.\n";
+        }
+    } while (pilihan != 5);
+
+    return 0;
+}
