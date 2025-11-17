@@ -2,8 +2,11 @@
 using namespace std;
 
 const int MAX = 100;
-string nama[MAX], rute[MAX], tanggal[MAX];
-int jumlah[MAX], total[MAX];
+
+// Tukar Jadi Array 2 dimensi
+string nama[MAX][1], rute[MAX][1], tanggal[MAX][1];
+int jumlah[MAX][1], total[MAX][1];
+
 int jumlahPelanggan = 0;
 
 int hitungTotal(int jumlah, int harga) {
@@ -27,20 +30,22 @@ void daftarPelanggan() {
         return;
     }
     for (int i = 0; i < jumlahPelanggan; i++) {
-        cout << i + 1 << ". Nama: " << nama[i]
-             << " | Rute: " << rute[i]
-             << " | Tanggal: " << tanggal[i]
-             << " | Jumlah: " << jumlah[i]
-             << " | Total: Rp " << total[i] << endl;
+        cout << i + 1 << ". Nama: " << nama[i][0]
+             << " | Rute: " << rute[i][0]
+             << " | Tanggal: " << tanggal[i][0]
+             << " | Jumlah: " << jumlah[i][0]
+             << " | Total: Rp " << total[i][0] << endl;
     }
 }
+
 void statistikPenjualan() {
     cout << "\n===== STATISTIK PENJUALAN =====\n";
     cout << "Total pelanggan  : " << jumlahPelanggan << endl;
     int pendapatan = 0;
-    for (int i = 0; i < jumlahPelanggan; i++) pendapatan += total[i];
+    for (int i = 0; i < jumlahPelanggan; i++) pendapatan += total[i][0];
     cout << "Total pendapatan : Rp " << pendapatan << endl;
 }
+
 void riwayatPemesanan() {
     if (jumlahPelanggan == 0) {
         cout << "\nBelum ada riwayat pemesanan.\n";
@@ -49,14 +54,16 @@ void riwayatPemesanan() {
 
     cout << "\n===== RIWAYAT PEMESANAN =====\n";
     for (int i = 0; i < jumlahPelanggan; i++) {
-        cout << nama[i] << " || " << rute[i] << " || " << tanggal[i]
-             << " || Tiket: " << jumlah[i] << endl;
+        cout << nama[i][0] << " || " << rute[i][0]
+             << " || " << tanggal[i][0]
+             << " || Tiket: " << jumlah[i][0] << endl;
     }
+
     cout << "\nIngin mencari riwayat berdasarkan apa?\n";
     cout << "1. Nama\n2. Tanggal Keberangkatan\n3. Rute\nPilih: ";
     int pilihan;
     cin >> pilihan;
-    cin.ignore();
+    cin.ignore(); // membersihkan newline
 
     string cari;
     bool ditemukan = false;
@@ -77,11 +84,15 @@ void riwayatPemesanan() {
 
     cout << "\n===== HASIL PENCARIAN =====\n";
     for (int i = 0; i < jumlahPelanggan; i++) {
-        if ((pilihan == 1 && nama[i] == cari) ||
-            (pilihan == 2 && tanggal[i] == cari) ||
-            (pilihan == 3 && rute[i] == cari)) {
-            cout << nama[i] << " || " << rute[i] << " || " << tanggal[i]
-                 << " || Tiket: " << jumlah[i] << " || Total: Rp " << total[i] << endl;
+        if ((pilihan == 1 && nama[i][0] == cari) ||
+            (pilihan == 2 && tanggal[i][0] == cari) ||
+            (pilihan == 3 && rute[i][0] == cari)) {
+
+            cout << nama[i][0] << " || " << rute[i][0]
+                 << " || " << tanggal[i][0]
+                 << " || Tiket: " << jumlah[i][0]
+                 << " || Total: Rp " << total[i][0] << endl;
+
             ditemukan = true;
         }
     }
@@ -95,39 +106,50 @@ void pemesananTiket() {
     do {
         cout << "\n===== PEMESANAN TIKET KERETA =====\n";
         cout << "Masukkan nama: ";
-        cin.ignore();
-        getline(cin, nama[jumlahPelanggan]);
+        cin.ignore(); // bersihkan newline dari input sebelumnya
+        getline(cin, nama[jumlahPelanggan][0]);
 
         cout << "\nPilih rute (1-5):\n";
         cout << "1. Palu - Makassar\n2. Palu - Mamuju\n3. Palu - Manado\n4. Palu - Gorontalo\n5. Palu - Kendari\n";
+
         int pilihRute, harga = 0;
         cout << "Pilihan Anda: ";
         cin >> pilihRute;
-        cin.ignore();
+        cin.ignore(); // bersihkan newline
 
         switch (pilihRute) {
-            case 1: rute[jumlahPelanggan] = "Palu - Makassar"; harga = 200000; break;
-            case 2: rute[jumlahPelanggan] = "Palu - Mamuju"; harga = 180000; break;
-            case 3: rute[jumlahPelanggan] = "Palu - Manado"; harga = 220000; break;
-            case 4: rute[jumlahPelanggan] = "Palu - Gorontalo"; harga = 210000; break;
-            case 5: rute[jumlahPelanggan] = "Palu - Kendari"; harga = 190000; break;
+            case 1: rute[jumlahPelanggan][0] = "Palu - Makassar"; harga = 200000; break;
+            case 2: rute[jumlahPelanggan][0] = "Palu - Mamuju"; harga = 180000; break;
+            case 3: rute[jumlahPelanggan][0] = "Palu - Manado"; harga = 220000; break;
+            case 4: rute[jumlahPelanggan][0] = "Palu - Gorontalo"; harga = 210000; break;
+            case 5: rute[jumlahPelanggan][0] = "Palu - Kendari"; harga = 190000; break;
             default: cout << "Rute tidak valid!\n"; return;
         }
 
         cout << "Masukkan tanggal keberangkatan (dd/mm/yyyy): ";
-        getline(cin, tanggal[jumlahPelanggan]);
-        cout << "Masukkan jumlah tiket: ";
-        cin >> jumlah[jumlahPelanggan];
+        getline(cin, tanggal[jumlahPelanggan][0]);
 
-        total[jumlahPelanggan] = hitungTotal(jumlah[jumlahPelanggan], harga);
-        cetakStruk(nama[jumlahPelanggan], rute[jumlahPelanggan], tanggal[jumlahPelanggan], jumlah[jumlahPelanggan], total[jumlahPelanggan]);
+        cout << "Masukkan jumlah tiket: ";
+        cin >> jumlah[jumlahPelanggan][0];
+
+        total[jumlahPelanggan][0] = hitungTotal(jumlah[jumlahPelanggan][0], harga);
+
+        cetakStruk(
+            nama[jumlahPelanggan][0],
+            rute[jumlahPelanggan][0],
+            tanggal[jumlahPelanggan][0],
+            jumlah[jumlahPelanggan][0],
+            total[jumlahPelanggan][0]
+        );
 
         jumlahPelanggan++;
 
         cout << "Tambah pelanggan lagi? (y/n): ";
         cin >> ulang;
+
     } while (ulang == 'y' || ulang == 'Y');
 }
+
 int main() {
     int pilihan;
     do {
